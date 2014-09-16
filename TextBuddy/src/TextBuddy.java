@@ -127,6 +127,7 @@ public class TextBuddy {
 		int lineToRemove = 0;
 		String deletedText = "";
 		String extractedText = "";
+		String tempFileUrl = "";
 		
 		try {
 			lineToRemove = Integer.parseInt(lineNumber);
@@ -139,7 +140,8 @@ public class TextBuddy {
 			String[] aryLines = file.OpenFile();
 		      
 		    //Construct the new file that will later be renamed to the original filename.
-		    File tempFile = new File("C:/Users/Eric/workspace/TextBuddy/src/mytextfile.tmp");
+			tempFileUrl = fileUrlString.substring(0,  fileUrlString.length()-4) + ".tmp";
+		    File tempFile = new File(tempFileUrl);
 		      
 		    FileWriter write = new FileWriter(tempFile);
 			PrintWriter print_line = new PrintWriter(write);
@@ -164,7 +166,6 @@ public class TextBuddy {
 		    		print_line.printf("%d. ", j+1);
 		    		print_line.printf("%s" + "%n", extractedText);
 		    		j++;
-		    		// print_line.flush();
 		    	}
 		    }
 		 
