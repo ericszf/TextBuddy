@@ -42,4 +42,26 @@ public class ReadFile {
 		textReader.close();
 		return textData;	
 	}
+	
+	public String[] removeNumberings() throws IOException {
+		
+		FileReader fr = new FileReader(path);
+		BufferedReader textReader = new BufferedReader(fr);
+		
+		int numberOfLines = readLines();
+		String[]numberedTextData = new String[numberOfLines];
+		
+		for(int i = 0; i < numberOfLines; i++) {
+			numberedTextData[i] = textReader.readLine();
+		}
+		
+		String[]textData = new String[numberOfLines];
+		
+		for(int i = 0; i < numberOfLines; i++) {
+			textData[i] = numberedTextData[i].replace((numberedTextData[i].trim().split("\\s+")[0]), "").trim();
+		}
+		
+		textReader.close();
+		return textData;
+	}
 }
