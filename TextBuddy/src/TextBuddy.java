@@ -1,10 +1,14 @@
 // This program saves the text file when the user exit the program.
 
 import java.io.*;
+import java.nio.file.*;
 import java.util.*;
 
 public class TextBuddy {
 
+	static Path _fileUrl;
+	static String fileUrlString;
+	
 	private static final String MESSAGE_INVALID_FORMAT = "invalid command format :%1$s";
 	private static final String MESSAGE_ADDED = "added to mytextfile.txt: \"%1$s\"";
 	private static final String MESSAGE_DELETED = "deleted from mytextfile.txt: \"%1$s\"";
@@ -32,6 +36,7 @@ public class TextBuddy {
 	private static String removeFirstWord(String userCommand) {
 		return userCommand.replace(getFirstWord(userCommand), "").trim();
 	}	
+	
 	/**
 	 * This operation determines which of the supported command types the user
 	 * wants to perform
@@ -60,10 +65,8 @@ public class TextBuddy {
 	
 	private static String displayText() {
 		
-		String fileURL = "C:/Users/Eric/workspace/TextBuddy/src/mytextfile.txt";
-		
 		try {
-			ReadFile file = new ReadFile(fileURL);
+			ReadFile file = new ReadFile(fileUrlString);
 			String[] aryLines = file.OpenFile();
 			
 			if(aryLines.length == 0) {
@@ -86,9 +89,7 @@ public class TextBuddy {
 	
 	private static String clearText() throws FileNotFoundException {
 		
-		String fileURL = "C:/Users/Eric/workspace/TextBuddy/src/mytextfile.txt";
-		
-		PrintWriter pw = new PrintWriter(fileURL);
+		PrintWriter pw = new PrintWriter(fileUrlString);
 		pw.close();
 		
 		String text = "all content deleted from mytextfile.txt";
@@ -99,10 +100,9 @@ public class TextBuddy {
 	private static String addText(String command) {
 		
 		String extractedText = removeFirstWord(command);
-		String fileURL = "C:/Users/Eric/workspace/TextBuddy/src/mytextfile.txt";
 		
 		try {
-			WriteFile data = new WriteFile(fileURL, true);
+			WriteFile data = new WriteFile(fileUrlString, true);
 			data.writeToFile(extractedText);
 		}
 		catch (IOException e) {
@@ -125,7 +125,6 @@ public class TextBuddy {
 		
 		String lineNumber = removeFirstWord(command);
 		int lineToRemove = 0;
-		String fileURL = "C:/Users/Eric/workspace/TextBuddy/src/mytextfile.txt";
 		String deletedText = "";
 		String extractedText = "";
 		
@@ -136,7 +135,7 @@ public class TextBuddy {
 		}
 		
 		try {
-			ReadFile file = new ReadFile(fileURL);
+			ReadFile file = new ReadFile(fileUrlString);
 			String[] aryLines = file.OpenFile();
 		      
 		    //Construct the new file that will later be renamed to the original filename.
@@ -171,7 +170,7 @@ public class TextBuddy {
 		 
 		    print_line.close();
 
-		    File textFile = new File(fileURL);
+		    File textFile = new File(fileUrlString);
 		    
 		      //Delete the original file
 		      if (!textFile.delete()) {
@@ -234,7 +233,10 @@ public class TextBuddy {
 		if(args.length <=0){
 			argumentError();
 		}
+		
 		String fileName = args[0];
+		_fileUrl = Paths.get(fileName);
+		fileUrlString = _fileUrl.toString();
 		
 		printWelcomeMessage(fileName);
 		while (true) {
