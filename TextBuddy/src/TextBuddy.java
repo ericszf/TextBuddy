@@ -8,6 +8,7 @@ public class TextBuddy {
 	private static final String MESSAGE_INVALID_FORMAT = "invalid command format :%1$s";
 	private static final String MESSAGE_ADDED = "added to mytextfile.txt: \"%1$s\"";
 	private static final String MESSAGE_DELETED = "deleted from mytextfile.txt: \"%1$s\"";
+	private static final String MESSAGE_WELCOME = "Welcome to TextBuddy. %s is now ready for use\n";
 	
 	enum COMMAND_TYPE {
 		ADD, DISPLAY, DELETE, CLEAR, EXIT, INVALID
@@ -19,10 +20,8 @@ public class TextBuddy {
 		
 	}
 	
-	static void printWelcomeMessage(String fileName)
-	{
-		System.out.printf("Welcome to TextBuddy. %s is now ready for use\n", fileName);
-		
+	static void printWelcomeMessage(String fileName) {
+		System.out.printf(MESSAGE_WELCOME, fileName);
 	}
 	
 	private static String getFirstWord(String userCommand) {
