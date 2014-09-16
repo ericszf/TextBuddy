@@ -1,0 +1,15 @@
+add little brown cat
+display
+add jumped over the fence
+display
+delete 0
+delete 1
+display
+add little brown cat returns
+add little yellow cat joins in
+display
+delete 2
+display
+clear
+display
+exit

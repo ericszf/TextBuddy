@@ -1,0 +1,20 @@
+Welcome to TextBuddy. mytextfile.txt is now ready for use
+command: added to mytextfile.txt: "little brown cat"
+command: 1. little brown cat
+command: added to mytextfile.txt: "jumped over the fence"
+command: 1. little brown cat
+2. jumped over the fence
+command: No such line exist!
+command: deleted from mytextfile.txt: "little brown cat"
+command: 1. jumped over the fence
+command: added to mytextfile.txt: "little brown cat returns"
+command: added to mytextfile.txt: "little yellow cat joins in"
+command: 1. jumped over the fence
+2. little brown cat returns
+3. little yellow cat joins in
+command: deleted from mytextfile.txt: "little brown cat returns"
+command: 1. jumped over the fence
+2. little yellow cat joins in
+command: all content deleted from mytextfile.txt
+command: mytextfile.txt is empty
+command: 
