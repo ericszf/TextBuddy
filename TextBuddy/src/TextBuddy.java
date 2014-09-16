@@ -13,9 +13,10 @@ public class TextBuddy {
 	private static final String MESSAGE_ADDED = "added to mytextfile.txt: \"%1$s\"";
 	private static final String MESSAGE_DELETED = "deleted from mytextfile.txt: \"%1$s\"";
 	private static final String MESSAGE_WELCOME = "Welcome to TextBuddy. %s is now ready for use\n";
+	private static final String MESSAGE_SORTED = "Text file contents have been sorted.";
 	
 	enum COMMAND_TYPE {
-		ADD, DISPLAY, DELETE, CLEAR, EXIT, INVALID
+		ADD, DISPLAY, DELETE, CLEAR, SORT, EXIT, INVALID
 	};
 	
 	static void argumentError() {
@@ -56,11 +57,59 @@ public class TextBuddy {
 		 	return COMMAND_TYPE.DELETE;
 		} else if (commandTypeString.equalsIgnoreCase("clear")) {
 			return COMMAND_TYPE.CLEAR;
+		} else if (commandTypeString.equalsIgnoreCase("sort")) {
+			return COMMAND_TYPE.SORT;
 		} else if (commandTypeString.equalsIgnoreCase("exit")) {
 			return COMMAND_TYPE.EXIT;
 		} else {
 			return COMMAND_TYPE.INVALID;
 		}
+	}
+	
+	private static String sortText() {
+		
+		String tempFileUrl = "";
+		
+		try {
+			ReadFile file = new ReadFile(fileUrlString);
+			String[] aryLines = file.removeNumberings();
+			Arrays.sort(aryLines);
+			
+			//Construct the new file that will later be renamed to the original filename.
+			tempFileUrl = fileUrlString.substring(0, fileUrlString.length()-4) + ".tmp";
+		    File tempFile = new File(tempFileUrl);
+		      
+		    FileWriter write = new FileWriter(tempFile);
+			PrintWriter print_line = new PrintWriter(write);
+			
+			int countLines = file.readLines();
+			
+			for(int i = 0; i < countLines; i++) {
+				print_line.printf("%d. ", i+1);
+	    		print_line.printf("%s" + "%n", aryLines[i]);
+			}
+			
+			print_line.close();
+
+		    File textFile = new File(fileUrlString);
+		    
+		      //Delete the original file
+		      if (!textFile.delete()) {
+		        System.out.println("Could not delete file");
+		      }
+
+		      //Rename the new file to the filename the original file had.
+		      if (!tempFile.renameTo(textFile))
+		        System.out.println("Could not rename file");
+		}
+		catch (FileNotFoundException ex) {
+			ex.printStackTrace();
+		}
+		catch (IOException ex) {
+		    ex.printStackTrace();
+		}
+		
+		return String.format(MESSAGE_SORTED);
 	}
 	
 	private static String displayText() {
@@ -140,7 +189,7 @@ public class TextBuddy {
 			String[] aryLines = file.OpenFile();
 		      
 		    //Construct the new file that will later be renamed to the original filename.
-			tempFileUrl = fileUrlString.substring(0,  fileUrlString.length()-4) + ".tmp";
+			tempFileUrl = fileUrlString.substring(0, fileUrlString.length()-4) + ".tmp";
 		    File tempFile = new File(tempFileUrl);
 		      
 		    FileWriter write = new FileWriter(tempFile);
@@ -210,6 +259,8 @@ public class TextBuddy {
 			return deleteText(userCommand);
 		case CLEAR:
 			return clearText();
+		case SORT:
+			return sortText();
 		case INVALID:
 			return String.format(MESSAGE_INVALID_FORMAT, userCommand);
 		case EXIT:
